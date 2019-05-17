@@ -29,6 +29,6 @@ class Main extends Application {
 	}
 
 	static function main() {
-		trace("Hello, world!");
+		new Main();
 	}
 }
