@@ -1,5 +1,5 @@
 """
-WSGI config for hackServer project.
+WSGI config for hackathonTest project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'hackServer.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'hackathonTest.settings')
 
 application = get_wsgi_application()
