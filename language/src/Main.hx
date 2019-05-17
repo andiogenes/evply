@@ -65,8 +65,8 @@ class Main extends Application {
 		// Меню выбора поведения курсора
 		var cursorSelector = new CursorSelector(
 			function() { pointerState = Select; screenTransformLayer.visible = false; setCursor(Select); }, 
-			function() { pointerState = Zoom; screenTransformLayer.visible = true; setCursor(Zoom); }, 
-			function() { pointerState = Move; screenTransformLayer.visible = true; setCursor(Move); } );
+			function() { pointerState = Move; screenTransformLayer.visible = true; setCursor(Move); },
+			function() { pointerState = Zoom; screenTransformLayer.visible = true; setCursor(Zoom); }); 
 
 
 		cursorSelector.position.x = 10;
