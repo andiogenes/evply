@@ -28,15 +28,16 @@
 	
 	function logData2() {
 		var client = new XMLHttpRequest();
-		const fname = "name";
-		const sname = "data";
-		var json = JSON.stringify({	
-			name: fname,
-			data: sname
-		});
-		client.open("GET", "load/name", false); // third parameter indicates sync xhr. :(
-		client.setRequestHeader("Content-Type", "application/json; charset=utf-8");
-		client.send(json);
+		client.open("GET", "load/name", true); // third parameter indicates sync xhr. :(
+		client.onload = function (e) {
+			console.log(client.statusText);
+		}
+		console.log("I'M CATCHER");
+		client.onerror = function (e) {
+			console.error(client.statusText);
+		};
+		
+		client.send();
 	}
 	const btn3 = document.getElementById('btn3');
 	btn3.addEventListener('click', logData2);
