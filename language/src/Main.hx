@@ -9,11 +9,18 @@ import pixi.interaction.InteractionEvent;
 import pixi.core.math.Point;
 import pixi.interaction.InteractionData;
 import pixi.loaders.Loader;
+import editor.workspace.Node;
 
 enum PointerBehaviourType {
 	Select;
 	Zoom;
 	Move;
+}
+
+enum InputType {
+	Text;
+	Symbol;
+	Number;
 }
 
 class Main extends Application {
@@ -26,6 +33,9 @@ class Main extends Application {
 	var workspace: Null<Workspace>;
 	var isDragging: Bool;
 	var loader: Loader;
+	var pictureSelector: Null<editor.gui.PictureSelector>;
+
+	var inputType: InputType = Text;
 
 	public function new() {
 		super();
@@ -48,7 +58,97 @@ class Main extends Application {
 			}
 		});
 
-		backgroundColor = 0xe1e1e1;
+		Browser.document.querySelector("#string_btn").addEventListener("click", function() {
+			inputType = Text;
+		});
+
+		Browser.document.querySelector("#symbol_btn").addEventListener("click", function() {
+			inputType = Symbol;
+		});
+
+		
+		Browser.document.querySelector("#number_btn").addEventListener("click", function() {
+			inputType = Number;
+		});
+
+		Browser.document.querySelector("#submit_btn").addEventListener("click", function() {
+			if (workspace != null) {
+				switch (inputType) {
+					case Text:
+						var txt = untyped __js__('document.querySelector("#input_bar").value');
+						var text = new editor.workspace.nodes.Text(txt);
+						text.x = -workspace.x + width/2 - text.width;
+						text.y = -workspace.y + height/2;
+						workspace.addNode(text);
+					case Number:
+						var txt: String = untyped __js__('document.querySelector("#input_bar").value');
+						var num = Std.parseFloat(txt);
+						if (!Math.isNaN(num)) {
+							var number = new editor.workspace.nodes.Number(num);
+							number.x = -workspace.x + width/2 - number.width;
+							number.y = -workspace.y + height/2;
+							workspace.addNode(number);
+						}
+					case Symbol:
+						var txt = untyped __js__('document.querySelector("#input_bar").value');
+						var text = new editor.workspace.nodes.Symbol(txt);
+						text.x = -workspace.x + width/2 - text.width;
+						text.y = -workspace.y + height/2;
+						workspace.addNode(text);
+				}
+			}
+		});
+
+		Browser.document.querySelector("#picture_btn").addEventListener("click", function() {
+			if (workspace != null && pictureSelector != null) {
+				pictureSelector.visible = true;
+			}
+		});
+
+		Browser.document.querySelector("#lambda_btn").addEventListener("click", function() {
+			if (workspace != null) {
+				var args = workspace.selectedNodes.first();
+				if (args == null) return;
+
+				switch (args.type) {
+					case RList(list):
+
+					case _:
+						return;
+				}
+
+				var llist = new List<Node>();
+				for (i in workspace.selectedNodes) {
+					llist.add(i);
+				}
+
+				llist.push(new editor.workspace.nodes.Lambda.LambdaPicture());
+
+				var lambda = new editor.workspace.nodes.Lambda(llist);
+				lambda.x = -workspace.x + width/2 - lambda.width;
+				lambda.y = -workspace.y + height/2;
+				workspace.addNode(lambda);
+			}
+		});
+
+		Browser.document.querySelector("#parens_btn").addEventListener("click", function() {
+			if (workspace != null) {
+				var args = workspace.selectedNodes.first();
+				if (args == null) return;
+
+				var llist = new List<Node>();
+				for (i in workspace.selectedNodes) {
+					llist.add(i);
+				}
+
+				var parens = new editor.workspace.ListNode(llist);
+				parens.x = -workspace.x + width/2 - parens.width;
+				parens.y = -workspace.y + height/2;
+				workspace.addNode(parens);
+			}
+		});
+
+		backgroundColor = 0xF5F5DC;
 		width = Browser.window.innerWidth;
 		height = Browser.window.innerHeight;
 		position = "fixed";
@@ -58,6 +158,7 @@ class Main extends Application {
 
 		loader = new Loader("assets/");
 		loader.add("cursor", "cursor.png");
+		loader.add("lambda", "lambda.png");
 		loader.add("hand", "hand.png");
 		loader.add("magnifier", "magnifier.png");
 		loader.add("pictures", "pictures.json");
@@ -116,6 +217,10 @@ class Main extends Application {
 		scaleSelector.position.y = height - 45;
 
 		stage.addChild(scaleSelector);
+
+    	pictureSelector = new editor.gui.PictureSelector(width * 0.25, height * 0.1, width/2, height * 0.8, workspace, this);
+		pictureSelector.visible = false;
+		stage.addChild(pictureSelector);
 	}
 
 	function setCursor(type: PointerBehaviourType) {

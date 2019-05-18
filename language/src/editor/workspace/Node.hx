@@ -8,6 +8,7 @@ import pixi.interaction.InteractionData;
 enum RealType {
     RNumber(number: Float);
     RString(string: String);
+    RSymbol(string: String);
     RBoolean(boolean: Bool);
     RPicture(x: Int, y: Int);
     RList(list: List<Node>);
