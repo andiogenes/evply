@@ -226,6 +226,8 @@ class Main extends Application {
 		pointerState = Select;
 		isDragging = false;
 
+		onUpdate = update;
+
 		// Слой для очистки выделения
 		var screenUnselectLayer = new Container();
 		screenUnselectLayer.hitArea = new Rectangle(0, 0, width, height);
@@ -325,6 +327,10 @@ class Main extends Application {
 		if (pointerState == Move) {
 			isDragging = false;
 		}
+	}
+
+	function update(e: Float) {
+
 	}
 
 	static function main() {
