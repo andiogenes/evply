@@ -24,21 +24,19 @@ def save(request):
 	return render(request, "index.html", context=received_json_data)
 
 @csrf_exempt
-def load(request):
-	received_json_data=json.loads(request.body)
+def load(request, fileName):
 	pool = redis.ConnectionPool(host='localhost', port=6379, db=0)
 	r = redis.Redis(connection_pool=pool)
-	key = received_json_data.get('name')
-	value = received_json_data.get('data')
-	r.set(key, value)
-	return render(request, "index.html", context=received_json_data)
+	print(fileName)
+	data = r.get(fileName)
+	res = {"header": data}
+	return render(request, "index.html", context=res)
 
 @csrf_exempt	
 def list(request):
 	received_json_data=json.loads(request.body)
 	pool = redis.ConnectionPool(host='localhost', port=6379, db=0)
 	r = redis.Redis(connection_pool=pool)
-	key = received_json_data.get('name')
-	value = received_json_data.get('data')
-	r.set(key, value)
-	return render(request, "index.html", context=received_json_data)
+	data = r.keys()
+	res = {"header": data}
+	return render(request, "index.html", context=res)

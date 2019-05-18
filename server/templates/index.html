@@ -4,13 +4,13 @@
 	<title>TEST PAGE</title>
 </head>
 <body>
-<h1> TEST </h1>
+<h1> {{ header }} </h1>
 <a href="" id="btn2">SAVE REQUEST</a>
 <a href="" id="btn3">LOAD REQUEST</a>
 <a href="" id="btn4">LIST REQUEST</a>
 
 <script>
-	function logData() {
+	function logData1() {
 		var client = new XMLHttpRequest();
 		const fname = "name";
 		const sname = "data";
@@ -18,16 +18,44 @@
 			name: fname,
 			data: sname
 		});
-		client.open("POST", "load", false); // third parameter indicates sync xhr. :(
+		client.open("POST", "save", false); // third parameter indicates sync xhr. :(
 		client.setRequestHeader("Content-Type", "application/json; charset=utf-8");
 		client.send(json);
 	}
 	const btn2 = document.getElementById('btn2');
-	btn2.addEventListener('click', logData);
+	btn2.addEventListener('click', logData1);
+	
+	
+	function logData2() {
+		var client = new XMLHttpRequest();
+		const fname = "name";
+		const sname = "data";
+		var json = JSON.stringify({	
+			name: fname,
+			data: sname
+		});
+		client.open("GET", "load/name", false); // third parameter indicates sync xhr. :(
+		client.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+		client.send(json);
+	}
 	const btn3 = document.getElementById('btn3');
-	btn3.addEventListener('click', logData);
+	btn3.addEventListener('click', logData2);
+	
+	
+	function logData3() {
+		var client = new XMLHttpRequest();
+		const fname = "name";
+		const sname = "data";
+		var json = JSON.stringify({	
+			name: fname,
+			data: sname
+		});
+		client.open("GET", "list", false); // third parameter indicates sync xhr. :(
+		client.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+		client.send(json);
+	}
 	const btn4 = document.getElementById('btn4');
-	btn4.addEventListener('click', logData);
+	btn4.addEventListener('click', logData3);
 </script>
 </body>
 </html>
