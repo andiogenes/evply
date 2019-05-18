@@ -111,7 +111,7 @@ class Main extends Application {
 				if (args == null) return;
 
 				switch (args.type) {
-					case RList(list):
+					case RList(_):
 
 					case _:
 						return;
@@ -140,6 +140,63 @@ class Main extends Application {
 				for (i in workspace.selectedNodes) {
 					llist.add(i);
 				}
+
+				var parens = new editor.workspace.ListNode(llist);
+				parens.x = -workspace.x + width/2 - parens.width;
+				parens.y = -workspace.y + height/2;
+				workspace.addNode(parens);
+			}
+		});
+
+		Browser.document.querySelector("#def_btn").addEventListener("click", function() {
+			if (workspace != null) {
+				var args = workspace.selectedNodes.first();
+				if (args == null) return;
+
+				var llist = new List<Node>();
+				for (i in workspace.selectedNodes) {
+					llist.add(i);
+				}
+
+				llist.push(new editor.workspace.nodes.Symbol.Define());
+
+				var parens = new editor.workspace.ListNode(llist);
+				parens.x = -workspace.x + width/2 - parens.width;
+				parens.y = -workspace.y + height/2;
+				workspace.addNode(parens);
+			}
+		});
+
+		Browser.document.querySelector("#quote_btn").addEventListener("click", function() {
+			if (workspace != null) {
+				var args = workspace.selectedNodes.first();
+				if (args == null) return;
+
+				var llist = new List<Node>();
+				for (i in workspace.selectedNodes) {
+					llist.add(i);
+				}
+
+				llist.push(new editor.workspace.nodes.Symbol.Quote());
+
+				var parens = new editor.workspace.ListNode(llist);
+				parens.x = -workspace.x + width/2 - parens.width;
+				parens.y = -workspace.y + height/2;
+				workspace.addNode(parens);
+			}
+		});
+
+		Browser.document.querySelector("#if_btn").addEventListener("click", function() {
+			if (workspace != null) {
+				var args = workspace.selectedNodes.first();
+				if (args == null) return;
+
+				var llist = new List<Node>();
+				for (i in workspace.selectedNodes) {
+					llist.add(i);
+				}
+
+				llist.push(new editor.workspace.nodes.Symbol.Conditional());
 
 				var parens = new editor.workspace.ListNode(llist);
 				parens.x = -workspace.x + width/2 - parens.width;
