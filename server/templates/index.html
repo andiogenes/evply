@@ -1,25 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>123</title>
+	<title>TEST PAGE</title>
 </head>
 <body>
 <h1> {{ header }} </h1>
 <form method="POST" action="#" name="main-form">
 	<input id="name" type="text" name="name">
 	<input id="sername" type="text" name="job">
-	<input type="submit" name="sb" value="Отправить">
+	<input type="submit" name="sb" value="GET REQUEST">
 </form>
-<a href="#" id="btn">lalalalal</a>
+<a href="#" id="btn">POST REQUEST</a>
 
 <script>
 	window.addEventListener('unload', logData, false);
 	function logData() {
 		var client = new XMLHttpRequest();
-		const name = document.getElementById(
+		const fname = document.getElementById("name").value;
+		const sname = document.getElementById("sername").value;
 		var json = JSON.stringify({
-			name: "Виктор",
-			surname: "Цой"
+			name: fname,
+			surname: sname
 		});
 		client.open("POST", "", true); // third parameter indicates sync xhr. :(
 		client.setRequestHeader("Content-Type", "application/json; charset=utf-8");
