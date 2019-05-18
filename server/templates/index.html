@@ -4,30 +4,30 @@
 	<title>TEST PAGE</title>
 </head>
 <body>
-<h1> {{ header }} </h1>
-<form method="POST" action="#" name="main-form">
-	<input id="name" type="text" name="name">
-	<input id="sername" type="text" name="job">
-	<input type="submit" name="sb" value="GET REQUEST">
-</form>
-<a href="#" id="btn">POST REQUEST</a>
+<h1> TEST </h1>
+<a href="" id="btn2">SAVE REQUEST</a>
+<a href="" id="btn3">LOAD REQUEST</a>
+<a href="" id="btn4">LIST REQUEST</a>
 
 <script>
-	window.addEventListener('unload', logData, false);
 	function logData() {
 		var client = new XMLHttpRequest();
-		const fname = document.getElementById("name").value;
-		const sname = document.getElementById("sername").value;
-		var json = JSON.stringify({
+		const fname = "name";
+		const sname = "data";
+		var json = JSON.stringify({	
 			name: fname,
-			surname: sname
+			data: sname
 		});
-		client.open("POST", "", true); // third parameter indicates sync xhr. :(
+		client.open("POST", "load", false); // third parameter indicates sync xhr. :(
 		client.setRequestHeader("Content-Type", "application/json; charset=utf-8");
 		client.send(json);
 	}
-	const btn = document.getElementById('btn');
-	btn.addEventListener('click', logData);
+	const btn2 = document.getElementById('btn2');
+	btn2.addEventListener('click', logData);
+	const btn3 = document.getElementById('btn3');
+	btn3.addEventListener('click', logData);
+	const btn4 = document.getElementById('btn4');
+	btn4.addEventListener('click', logData);
 </script>
 </body>
 </html>
