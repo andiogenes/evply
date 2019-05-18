@@ -13,6 +13,10 @@ enum RealType {
     RPicture(x: Int, y: Int);
     RList(list: List<Node>);
     RLambdaSymbol;
+    RQuoteSymbol;
+    RIfSymbol;
+    RDefSymbol;
+    RListSymbol;
 }
 
 enum Nest {
