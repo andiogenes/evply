@@ -19,3 +19,33 @@ class Symbol extends Node {
         addChild(txt);
     }
 }
+
+class Quote extends Symbol {
+
+    public function new() {
+        super("quote");
+        type = RQuoteSymbol;
+    }
+}
+
+class Conditional extends Symbol {
+
+    public function new() {
+        super("if");
+        type = RIfSymbol;
+    }
+}
+
+class Define extends Symbol {
+    public function new() {
+        super("define");
+        type = RDefSymbol;
+    }
+}
+
+class ListSymbol extends Symbol {
+    public function new() {
+        super("list");
+        type = RListSymbol;
+    }
+}
