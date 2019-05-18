@@ -8,6 +8,7 @@ import pixi.core.math.shapes.Rectangle;
 import pixi.interaction.InteractionEvent;
 import pixi.core.math.Point;
 import pixi.interaction.InteractionData;
+import pixi.loaders.Loader;
 
 enum PointerBehaviourType {
 	Select;
@@ -22,8 +23,9 @@ class Main extends Application {
 	var dragEnd: Point;
 	var dragData: InteractionData;
 	var wsPosBuffer: Point;
-	var workspace: Workspace;
+	var workspace: Null<Workspace>;
 	var isDragging: Bool;
+	var loader: Loader;
 
 	public function new() {
 		super();
@@ -54,8 +56,27 @@ class Main extends Application {
 
 		super.start(null, Browser.document.body);
 
+		loader = new Loader("assets/");
+		loader.add("cursor", "cursor.png");
+		loader.add("hand", "hand.png");
+		loader.add("magnifier", "magnifier.png");
+		loader.add("pictures", "pictures.json");
+		loader.load(init);
+	}
+
+	function init() {
 		pointerState = Select;
 		isDragging = false;
+
+		// Слой для очистки выделения
+		var screenUnselectLayer = new Container();
+		screenUnselectLayer.hitArea = new Rectangle(0, 0, width, height);
+		screenUnselectLayer.interactive = true;
+		screenUnselectLayer.on("pointerdown", function() {
+			if (workspace != null) workspace.clearSelection();
+		});
+
+		stage.addChild(screenUnselectLayer);
 
 		// Рабочее пространство
 		workspace = new Workspace();
