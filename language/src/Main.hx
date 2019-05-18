@@ -42,6 +42,15 @@ class Main extends Application {
 
 		super.start(null, Browser.document.body);
 
+		loader = new Loader("assets/");
+		loader.add("cursor", "cursor.png");
+		loader.add("hand", "hand.png");
+		loader.add("magnifier", "magnifier.png");
+		loader.add("pictures", "pictures.json");
+		loader.load(init);
+	}
+
+	function init() {
 		pointerState = Select;
 		isDragging = false;
 
