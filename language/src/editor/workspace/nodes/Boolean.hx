@@ -15,6 +15,7 @@ class Boolean extends Node {
 
     override public function initGraphic() {
         txt = new pixi.core.text.Text(text);
+        txt.height = 32;
         addChild(txt);
     }
 }

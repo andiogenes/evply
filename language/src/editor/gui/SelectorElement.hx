@@ -14,8 +14,8 @@ enum ButtonAlignType {
 
 class SelectorElement extends Container {
 
-    static inline var fillColor = 0x8b8b8b;
-    static inline var lineColor = 0xffffff;
+    static inline var fillColor = 0x222222;
+    static inline var lineColor = 0xF5F5DC;
     public function new(type: ButtonAlignType, width: Float, height: Float, ?image: Texture, ?text: String) {
         super();
 
@@ -25,13 +25,13 @@ class SelectorElement extends Container {
         var graphic: Graphics = new Graphics();
 
         graphic.beginFill(fillColor);
-        graphic.lineStyle(1, lineColor);
+        graphic.lineStyle(0.5, lineColor);
         switch (type) {
             case Left:
                 graphic.drawRoundedRect(0, 0, width, height, 8);
                 graphic.lineStyle(0);
                 graphic.drawRect(8, 0, width - 8, height);
-                graphic.lineStyle(1, lineColor);
+                graphic.lineStyle(0.5, lineColor);
                 graphic.drawRect(width-1, 0, 1, height);
             case Center:
                 graphic.drawRect(0, 0, width, height);
@@ -39,7 +39,7 @@ class SelectorElement extends Container {
                 graphic.drawRoundedRect(0, 0, width, height, 8);
                 graphic.lineStyle(0);
                 graphic.drawRect(0, 0, width-8, height);
-                graphic.lineStyle(1, lineColor);
+                graphic.lineStyle(0.5, lineColor);
                 graphic.drawRect(0, 0, 1, height);
         }
         graphic.endFill();

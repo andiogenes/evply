@@ -9,8 +9,9 @@ enum RealType {
     RNumber(number: Float);
     RString(string: String);
     RBoolean(boolean: Bool);
-    RPicture(x: Int, y: Int); // или (x: Int, y: Int)
-    NotPrimitive;
+    RPicture(x: Int, y: Int);
+    RList(list: List<Node>);
+    RLambdaSymbol;
 }
 
 enum Nest {
@@ -19,19 +20,6 @@ enum Nest {
 }
 
 class Node extends Container {
-    // Типы:
-    // Число 12345
-    // Строка "абцд"
-    // Булево true/false
-    // Символ
-    // Список белая табличка
-    // Цитата?
-    // Картинка картинка
-
-    // Комплексные выражения??
-
-    // Требования к символу??
-
     public var nest: Nest;
     public var type: RealType;
     public var isSelected(default, null): Bool = false;
@@ -78,8 +66,12 @@ class Node extends Container {
         this.workspace = workspace;
     }
 
+    public function unsetWorkspace() {
+        this.workspace = null;
+    }
+
     public function select() {
-        if (isSelected) return;
+        if (isSelected || workspace == null) return;
 
         isSelected = true;
         selectGraphic.width = width;
