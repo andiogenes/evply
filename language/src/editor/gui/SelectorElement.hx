@@ -54,7 +54,8 @@ class SelectorElement extends Container {
             var sprite = new Sprite(image);
             sprite.scale.x = 0.8;
             sprite.scale.y = 0.8;
-            sprite.position.x = (width - sprite.width)/2;
+            // sprite.position.x = (width - sprite.width)/2;
+            sprite.position.x = 16;
             sprite.position.y = 2.5;
             addChild(sprite);
         }
