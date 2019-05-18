@@ -34,6 +34,18 @@ class Main extends Application {
 			}
 		});
 
+		Browser.document.body.addEventListener("keydown", function(e) {
+			if (e.shiftKey == true && workspace != null) {
+				workspace.shiftPressed = true;
+			}
+		});
+
+		Browser.document.body.addEventListener("keyup", function(e) {
+			if (workspace != null) {
+				workspace.shiftPressed = false;
+			}
+		});
+
 		backgroundColor = 0xe1e1e1;
 		width = Browser.window.innerWidth;
 		height = Browser.window.innerHeight;
@@ -42,15 +54,6 @@ class Main extends Application {
 
 		super.start(null, Browser.document.body);
 
-		loader = new Loader("assets/");
-		loader.add("cursor", "cursor.png");
-		loader.add("hand", "hand.png");
-		loader.add("magnifier", "magnifier.png");
-		loader.add("pictures", "pictures.json");
-		loader.load(init);
-	}
-
-	function init() {
 		pointerState = Select;
 		isDragging = false;
 
