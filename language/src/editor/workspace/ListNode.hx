@@ -19,6 +19,7 @@ class ListNode extends Node {
     override function initGraphic() {
         graphic = new Graphics();
         graphic.beginFill(0x00f100, 0.2);
+        graphic.lineStyle(1, 0x001f00);
         graphic.drawRect(0, 0, 64, 64);
         graphic.endFill();
         addChild(graphic);
