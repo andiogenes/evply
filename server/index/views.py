@@ -3,6 +3,7 @@ import json
 import redis
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponseRedirect
+from django.http import HttpResponse
  
 def index(request):
 	pool = redis.ConnectionPool(host='localhost', port=6379, db=0)
@@ -21,7 +22,7 @@ def save(request):
 	key = received_json_data.get('name')
 	value = received_json_data.get('data')
 	r.set(key, value)
-	return render(request, "index.html", context=received_json_data)
+	return HttpResponse("")
 
 @csrf_exempt
 def load(request, fileName):
@@ -34,7 +35,6 @@ def load(request, fileName):
 
 @csrf_exempt	
 def list(request):
-	received_json_data=json.loads(request.body)
 	pool = redis.ConnectionPool(host='localhost', port=6379, db=0)
 	r = redis.Redis(connection_pool=pool)
 	data = r.keys()

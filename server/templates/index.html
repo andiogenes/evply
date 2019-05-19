@@ -1,62 +1,99 @@
 <!DOCTYPE html>
-<html>
-<head>
-	<title>TEST PAGE</title>
-</head>
-<body>
-<h1> {{ header }} </h1>
-<a href="" id="btn2">SAVE REQUEST</a>
-<a href="" id="btn3">LOAD REQUEST</a>
-<a href="" id="btn4">LIST REQUEST</a>
+<html lang="ru">
 
-<script>
-	function logData1() {
-		var client = new XMLHttpRequest();
-		const fname = "name";
-		const sname = "data";
-		var json = JSON.stringify({	
-			name: fname,
-			data: sname
-		});
-		client.open("POST", "save", false); // third parameter indicates sync xhr. :(
-		client.setRequestHeader("Content-Type", "application/json; charset=utf-8");
-		client.send(json);
-	}
-	const btn2 = document.getElementById('btn2');
-	btn2.addEventListener('click', logData1);
-	
-	
-	function logData2() {
-		var client = new XMLHttpRequest();
-		client.open("GET", "load/name", true); // third parameter indicates sync xhr. :(
-		client.onload = function (e) {
-			console.log(client.statusText);
-		}
-		console.log("I'M CATCHER");
-		client.onerror = function (e) {
-			console.error(client.statusText);
-		};
-		
-		client.send();
-	}
-	const btn3 = document.getElementById('btn3');
-	btn3.addEventListener('click', logData2);
-	
-	
-	function logData3() {
-		var client = new XMLHttpRequest();
-		const fname = "name";
-		const sname = "data";
-		var json = JSON.stringify({	
-			name: fname,
-			data: sname
-		});
-		client.open("GET", "list", false); // third parameter indicates sync xhr. :(
-		client.setRequestHeader("Content-Type", "application/json; charset=utf-8");
-		client.send(json);
-	}
-	const btn4 = document.getElementById('btn4');
-	btn4.addEventListener('click', logData3);
-</script>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>evply</title>
+	{% load static %}
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700&display=swap&subset=cyrillic" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Patua+One&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+
+<body class="page">
+
+	<form class="form form-string" action="#" method="POST">
+		<a href="#" class=""><i class="far fa-times-circle form__close-btn"></i>		</a>
+		<input class="form__input-text form-string__input_text" id="input_bar" type="text" name="value">
+		<input class="form__input_btn form-string__input_btn" id="submit_btn" type="button" value="Принять">
+	</form>
+
+	<div class="logo">
+		<span></span>
+	</div>
+	<div class="burger">
+		<div class="burger__line"></div>
+		<div class="burger__line"></div>
+		<div class="burger__line"></div>
+	</div>
+	<div class="menu">
+		<div class="btn-container">
+			<button class="menu__btn">Сохранить</button>
+			<button class="menu__btn">Загрузить</button>
+		</div>
+		<ul class="list list_main">
+			<li class="list__item">
+				<span class="list__title"><i class="fas fa-caret-right"></i>Управляющие конструкции</span>
+				<ul class="list list_primitives">
+					<li id="def_btn" class="list__item">define</li>
+					<li id="lambda_btn" class="list__item">lambda</li>
+					<li id="quote_btn" class="list__item">quote</li>
+					<li id="if_btn" class="list__item">if</li>
+					<li id="list_btn" class="list__item">list</li>
+					<li id="parens_btn" class="list__item">()</li>
+					<li id="begin_btn" class="list__item">begin</li>
+				</ul>
+			</li>
+			<li class="list__item">
+				<span class="list__title"><i class="fas fa-caret-right"></i>Программные примитивы</span>
+				<ul class="list list_primitives">
+					<li id="string_btn" class="list__item" data-type="string">Строка</li>
+					<li id="symbol_btn" class="list__item" data-type="string">Символ</li>
+					<li id="number_btn" class="list__item" data-type="number">Число</li>
+					<li id="picture_btn" class="list__item">Изображение</li>
+					<li id="bool_btn" class="list__item">Логическое значение</li>
+				</ul>
+			</li>
+		</ul>
+		<span id="js-open-tutorial" class="tutorial-btn">Tutorial</span>
+	</div>
+	<div id="popup1" class="tutorial-popup">
+		<div class="tutorial-popup__content">
+			<h3 class="tutorial-popup__title">Tutorial</h3>
+			<span class="tutorial-popup__close-btn" id="js-close-tutorial">X</span>
+			<div class="tutorial-step">
+				<div class="tutorial-step__img">
+					<img src="http://placehold.it/500" alt="step-img">
+				</div>
+				<p class="tutorial-step__text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum beatae harum dicta, voluptatibus qui optio debitis corporis rerum, odit veritatis similique veniam natus fuga fugit dolorum cumque inventore laudantium eius?</p>
+			</div>
+			<div class="tutorial-step">
+				<div class="tutorial-step__img">
+					<img src="http://placehold.it/500" alt="step-img">
+				</div>
+				<p class="tutorial-step__text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum beatae harum dicta, voluptatibus qui optio debitis corporis rerum, odit veritatis similique veniam natus fuga fugit dolorum cumque inventore laudantium eius?</p>
+			</div>
+			<div class="tutorial-step">
+				<div class="tutorial-step__img">
+					<img src="http://placehold.it/500" alt="step-img">
+				</div>
+				<p class="tutorial-step__text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum beatae harum dicta, voluptatibus qui optio debitis corporis rerum, odit veritatis similique veniam natus fuga fugit dolorum cumque inventore laudantium eius?</p>
+			</div>
+			<div class="tutorial-step">
+				<div class="tutorial-step__img">
+					<img src="http://placehold.it/500" alt="step-img">
+				</div>
+				<p class="tutorial-step__text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum beatae harum dicta, voluptatibus qui optio debitis corporis rerum, odit veritatis similique veniam natus fuga fugit dolorum cumque inventore laudantium eius?</p>
+			</div>
+		</div>
+	</div> 
+
+	<script src="{% static 'pixi.min.js' %}"></script>
+	<script src="{% static 'game.js' %}"></script>
+	<script src="{% static 'main.js' %}"></script>
 </body>
+
 </html>
