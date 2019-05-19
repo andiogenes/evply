@@ -4,6 +4,7 @@ import pixi.core.display.Container;
 import pixi.core.graphics.Graphics;
 import editor.workspace.Workspace;
 import pixi.interaction.InteractionData;
+import interpreter.Evaluator;
 
 enum RealType {
     RNumber(number: Float);
@@ -17,6 +18,7 @@ enum RealType {
     RIfSymbol;
     RDefSymbol;
     RListSymbol;
+    RBegin;
 }
 
 enum Nest {
@@ -86,6 +88,13 @@ class Node extends Container {
         if (workspace != null) {
             if (workspace.shiftPressed == false) {
                 workspace.clearSelection();
+                if (workspace.evalSelector != null) {
+                    workspace.evalSelector.visible = true;
+                }
+            } else {
+                if (workspace.evalSelector != null) {
+                    workspace.evalSelector.visible = false;
+                }
             }
 
             workspace.recordSelection(this);
@@ -99,6 +108,77 @@ class Node extends Container {
         if (workspace != null) {
             workspace.dispatchSelection(this);
         }
+    }
+
+    public function serialize(): String {
+        var out = switch (type) {
+            case RNumber(number):
+                '{"type": "number","value": "$number","x": ${position.x}, "y": ${position.x}, "w": ${width}, "h": ${height},"children": []}';
+            case RString(string):
+                 '{"type": "string","value": "$string","x": ${position.x}, "y": ${position.y}, "w": ${width}, "h": ${height},"children": []}';
+            case RSymbol(string):
+                 '{"type": "string","value": "$string","x": ${position.x}, "y": ${position.y}, "w": ${width}, "h": ${height},"children": []}';
+            case RBoolean(boolean):
+                 '{"type": "boolean","value": "$boolean","x": ${position.x}, "y": ${position.y}, "w": ${width}, "h": ${height},"children": []}';
+            case RPicture(xx, yy):
+                 '{"type": "picture","value": "${xx}_${yy}","x": ${position.x}, "y": ${position.y}, "w": ${width}, "h": ${height},"children": []}';
+            case RList(list):
+                var resultString = "";
+                for (i in list) {
+                    resultString += i.serialize() + ',';
+                }
+                resultString = resultString.substr(0, resultString.length-1);
+                '{"type": "parens","value": "","x": ${position.x}, "y": ${position.y}, "w": ${width}, "h": ${height},"children": [${resultString}]}';
+            case RLambdaSymbol:
+                '{"type": "lambda","value": "lambda","x": ${position.x}, "y": ${position.y}, "w": ${width}, "h": ${height},"children": []}';
+            case RQuoteSymbol:
+                '{"type": "quote","value": "quote","x": ${position.x}, "y": ${position.y}, "w": ${width}, "h": ${height},"children": []}';
+            case RIfSymbol:
+                '{"type": "if","value": "if","x": ${position.x}, "y": ${position.y}, "w": ${width}, "h": ${height},"children": []}';
+            case RDefSymbol:
+                '{"type": "define","value": "define","x": ${position.x}, "y": ${position.y}, "w": ${width}, "h": ${height},"children": []}';
+            case RListSymbol:
+                '{"type": "list","value": "lista","x": ${position.x}, "y": ${position.y}, "w": ${width}, "h": ${height},"children": []}';
+            case RBegin:
+                '{"type": "begin","value": "begin","x": ${position.x}, "y": ${position.y}, "w": ${width}, "h": ${height},"children": []}';
+        }
+
+        return out;
+    }
+
+    public function astfize() : ASTType {
+         var out = switch (type) {
+            case RNumber(number):
+                ANumber(number);
+            case RString(string):
+                AString(string);
+            case RSymbol(string):
+                ASymbol(string);
+            case RBoolean(boolean):
+                ABoolean(boolean);
+            case RPicture(x, y):
+                APicture(x, y);
+            case RList(list):
+                var lst = new List<ASTType>();
+                for (i in list) {
+                    lst.add(i.astfize());
+                }
+                AList(lst);
+            case RLambdaSymbol:
+                ALambda;
+            case RQuoteSymbol:
+                AQuote;
+            case RIfSymbol:
+                AIf;
+            case RDefSymbol:
+                ADef;
+            case RListSymbol:
+                AListSymbol;
+            case RBegin:
+                ABegin;
+         }
+
+         return out;
     }
 
     function move() {

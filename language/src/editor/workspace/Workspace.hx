@@ -7,6 +7,7 @@ class Workspace extends Container {
 
     public var selectedNodes: List<Node>;
     public var shiftPressed: Bool = false;
+    public var evalSelector(default, default): Null<editor.gui.EvalSelector>;
 
     public function new() {
         super();
@@ -33,9 +34,18 @@ class Workspace extends Container {
         selectedNodes.remove(node);
     }
 
+    public function deleteSelected() {
+        for (i in selectedNodes) {
+            removeChild(i);
+        }
+    }
+
     public function clearSelection() {
         for (i in selectedNodes) {
             i.unselect();
+        }
+        if (evalSelector != null) {
+            evalSelector.visible = false;
         }
     }
 }

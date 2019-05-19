@@ -10,6 +10,7 @@ import pixi.core.math.Point;
 import pixi.interaction.InteractionData;
 import pixi.loaders.Loader;
 import editor.workspace.Node;
+import interpreter.Evaluator;
 
 enum PointerBehaviourType {
 	Select;
@@ -34,11 +35,15 @@ class Main extends Application {
 	var isDragging: Bool;
 	var loader: Loader;
 	var pictureSelector: Null<editor.gui.PictureSelector>;
+	var evalSelector: editor.gui.EvalSelector;
+	var evaluator: Evaluator;
 
 	var inputType: InputType = Text;
 
 	public function new() {
 		super();
+
+		evaluator = new Evaluator();
 
 		Browser.document.body.addEventListener("contextmenu", function(e) {
 			if (e.button == 2) {
@@ -50,11 +55,16 @@ class Main extends Application {
 			if (e.shiftKey == true && workspace != null) {
 				workspace.shiftPressed = true;
 			}
+
+			if (e.keyCode == 46) {
+				workspace.deleteSelected();
+			}
 		});
 
 		Browser.document.body.addEventListener("keyup", function(e) {
 			if (workspace != null) {
 				workspace.shiftPressed = false;
+				
 			}
 		});
 
@@ -205,6 +215,44 @@ class Main extends Application {
 			}
 		});
 
+		Browser.document.querySelector("#list_btn").addEventListener("click", function() {
+			if (workspace != null) {
+				var args = workspace.selectedNodes.first();
+				if (args == null) return;
+
+				var llist = new List<Node>();
+				for (i in workspace.selectedNodes) {
+					llist.add(i);
+				}
+
+				llist.push(new editor.workspace.nodes.Symbol.ListSymbol());
+
+				var parens = new editor.workspace.ListNode(llist);
+				parens.x = -workspace.x + width/2 - parens.width;
+				parens.y = -workspace.y + height/2;
+				workspace.addNode(parens);
+			}
+		});
+
+		Browser.document.querySelector("#begin_btn").addEventListener("click", function() {
+			if (workspace != null) {
+				var args = workspace.selectedNodes.first();
+				if (args == null) return;
+
+				var llist = new List<Node>();
+				for (i in workspace.selectedNodes) {
+					llist.add(i);
+				}
+
+				llist.push(new editor.workspace.nodes.Symbol.Begin());
+
+				var parens = new editor.workspace.ListNode(llist);
+				parens.x = -workspace.x + width/2 - parens.width;
+				parens.y = -workspace.y + height/2;
+				workspace.addNode(parens);
+			}
+		});
+
 		backgroundColor = 0xF5F5DC;
 		width = Browser.window.innerWidth;
 		height = Browser.window.innerHeight;
@@ -217,6 +265,7 @@ class Main extends Application {
 		loader.add("cursor", "cursor.png");
 		loader.add("lambda", "lambda.png");
 		loader.add("hand", "hand.png");
+		loader.add("eval", "eval.png");
 		loader.add("magnifier", "magnifier.png");
 		loader.add("pictures", "pictures.json");
 		loader.load(init);
@@ -280,6 +329,48 @@ class Main extends Application {
     	pictureSelector = new editor.gui.PictureSelector(width * 0.25, height * 0.1, width/2, height * 0.8, workspace, this);
 		pictureSelector.visible = false;
 		stage.addChild(pictureSelector);
+
+		evalSelector = new editor.gui.EvalSelector(function() {
+			// trace(workspace.selectedNodes.first().serialize());
+			var expr = evaluator.eval(workspace.selectedNodes.first().astfize(), evaluator.globalScope);		
+			var rExpr = evaluator.objectize(expr);
+
+			if (rExpr == null) return;
+			
+			var node = switch(rExpr) {
+				case RNumber(number):
+					new editor.workspace.nodes.Number(number);
+				case RString(string):
+					new editor.workspace.nodes.Text(string);
+				case RSymbol(string):
+					new editor.workspace.nodes.Symbol(string);
+				case RBoolean(boolean):
+					new editor.workspace.nodes.Boolean(boolean);
+				case RPicture(x, y):
+					new editor.workspace.nodes.Picture(x, y);
+				case RList(list):
+					new editor.workspace.ListNode(list);
+				// case RLambdaSymbol:
+					// new editor.workspace.nodes.Lambda();
+				// case RQuoteSymbol:
+				// case RIfSymbol:
+				// case RDefSymbol:
+				// case RListSymbol:
+				// case RBegin:
+				case _:
+					null;
+			}
+
+			if (node != null) {
+				node.x = -workspace.x + width/2 - node.width;
+				node.y = -workspace.y + height/2;
+				workspace.addNode(node);
+			}
+		});
+		evalSelector.position.set(150, 10);
+		evalSelector.visible = false;
+		workspace.evalSelector = evalSelector;
+		stage.addChild(evalSelector);
 	}
 
 	function setCursor(type: PointerBehaviourType) {
@@ -329,8 +420,11 @@ class Main extends Application {
 		}
 	}
 
-	function update(e: Float) {
+	// var zoom = false;
 
+	function update(e: Float) {
+		// if (zoom)
+		// 	workspace.zoom(-Math.atan(e*0.01));
 	}
 
 	static function main() {

@@ -80,6 +80,10 @@ class ListNode extends Node {
             graphic.height = rightLowerObject.y + rightLowerObject.height - leftUpperObject.y + 16;
 
         graphic.width = maxCellX * 48 + 16;
+
+        if (graphic.width < rightLowerObject.x+rightLowerObject.width-leftUpperObject.x) {
+            graphic.width = Math.ceil((rightLowerObject.x+rightLowerObject.width-leftUpperObject.x)/48)*48+8;
+        }
         // graphic.height = maxCellY * 48 + 64;
     }
 }
