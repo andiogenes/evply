@@ -10,7 +10,7 @@ enum ASTType {
     APicture(x: Int, y: Int);
     AList(list: List<ASTType>);
     ALambda;
-    AClosure(func: List<ASTType> -> Dynamic);
+    AClosure(func: List<ASTType> -> ASTType);
     AQuote;
     AIf;
     ADef;
@@ -76,6 +76,11 @@ class Evaluator {
                 var head = list.pop();
                 var tail = list;
                 var lOut = switch (head) {
+                    case AList(_):
+                        // Выполнить голову, сформировать новый список, выполнить новый список
+                        var evHead = eval(head, scope);
+                        tail.push(evHead);
+                        eval(AList(tail), scope);
                     case ADef:
                         var tailHead = tail.pop();
                         var value = eval(tail.first(), scope);
@@ -100,6 +105,7 @@ class Evaluator {
                                 case AList(list):
                                     list;
                                 case _:
+                                    // trace('abcd');
                                     null;
                             }
 
@@ -135,12 +141,13 @@ class Evaluator {
                         AList(tail);
                     case AClosure(func):
                         // var proc = eval(head, scope);
-                        trace('a');
                         var args = new List<ASTType>();
                         for (i in tail) {
                             args.add(eval(i, scope));
                         }
-                        func(args);
+                        var s = func(args);
+                        trace(s, args);
+                        s;
                     case ABegin:
                         null;
                     case _:
