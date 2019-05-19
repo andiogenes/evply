@@ -2,6 +2,8 @@
 <html>
 <head>
 	<title>TEST PAGE</title>
+	{% load static %}
+	<link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
 <h1> {{ header }} </h1>
@@ -10,7 +12,7 @@
 <a href="" id="btn4">LIST REQUEST</a>
 
 <script>
-	function logData1() {
+	function saveRequest() {
 		var client = new XMLHttpRequest();
 		const fname = "name";
 		const sname = "data";
@@ -23,10 +25,10 @@
 		client.send(json);
 	}
 	const btn2 = document.getElementById('btn2');
-	btn2.addEventListener('click', logData1);
+	btn2.addEventListener('click', saveRequest);
 	
 	
-	function logData2() {
+	function loadRequest() {
 		var client = new XMLHttpRequest();
 		client.open("GET", "load/name", true); // third parameter indicates sync xhr. :(
 		client.onload = function (e) {
@@ -40,23 +42,23 @@
 		client.send();
 	}
 	const btn3 = document.getElementById('btn3');
-	btn3.addEventListener('click', logData2);
+	btn3.addEventListener('click', loadRequest);
 	
 	
-	function logData3() {
+	function listRequest() {
 		var client = new XMLHttpRequest();
-		const fname = "name";
-		const sname = "data";
-		var json = JSON.stringify({	
-			name: fname,
-			data: sname
-		});
-		client.open("GET", "list", false); // third parameter indicates sync xhr. :(
-		client.setRequestHeader("Content-Type", "application/json; charset=utf-8");
-		client.send(json);
+		client.open("GET", "list", true); // third parameter indicates sync xhr. :(
+		client.onload = function (e) {
+			console.log(client.statusText);
+		}
+		console.log("I'M CATCHER");
+		client.onerror = function (e) {
+			console.error(client.statusText);
+		};
+		client.send();
 	}
 	const btn4 = document.getElementById('btn4');
-	btn4.addEventListener('click', logData3);
+	btn4.addEventListener('click', listRequest);
 </script>
 </body>
 </html>
