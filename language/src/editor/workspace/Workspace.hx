@@ -8,12 +8,14 @@ class Workspace extends Container {
     public var selectedNodes: List<Node>;
     public var shiftPressed: Bool = false;
     public var evalSelector(default, default): Null<editor.gui.EvalSelector>;
+    public var nodes: List<Node>;
 
     public function new() {
         super();
         interactive = true;
 
         selectedNodes = new List<Node>();
+        nodes = new List<Node>();
     }
 
     public function zoom(percent: Float) {
@@ -23,6 +25,7 @@ class Workspace extends Container {
 
     public function addNode(node: Node) {
         addChild(node);
+        nodes.add(node);
         node.setWorkspace(this);
     }
 
