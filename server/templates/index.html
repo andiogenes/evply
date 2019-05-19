@@ -66,27 +66,34 @@
 			<span class="tutorial-popup__close-btn" id="js-close-tutorial">X</span>
 			<div class="tutorial-step">
 				<div class="tutorial-step__img">
-					<img src="http://placehold.it/500" alt="step-img">
+					<img src="{% static 'tut-img-1.png'%}" alt="step-img">
 				</div>
-				<p class="tutorial-step__text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum beatae harum dicta, voluptatibus qui optio debitis corporis rerum, odit veritatis similique veniam natus fuga fugit dolorum cumque inventore laudantium eius?</p>
+				<p class="tutorial-step__text">Добро пожаловать в графический интерпретатор языка Lisp. В данном туториале вы познакомитесь с несколькими принципами, лежащими в основе функциональной парадигмы программирования. Все, с чем вы можете взаимодействовать делится на 2 группы: Программные примитивы и Управляющие конструкции</p>
 			</div>
 			<div class="tutorial-step">
 				<div class="tutorial-step__img">
-					<img src="http://placehold.it/500" alt="step-img">
+					<img src="{% static 'tut-img-3.png'%}" alt="step-img">
 				</div>
-				<p class="tutorial-step__text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum beatae harum dicta, voluptatibus qui optio debitis corporis rerum, odit veritatis similique veniam natus fuga fugit dolorum cumque inventore laudantium eius?</p>
+				<p class="tutorial-step__text">
+				Программные примитивы представляют собой некоторые значки, которые могут быть числом, картинкой, строкой или логическим значением True/False (Правда/Ложь). Сами по себе они нам мало интересны. С этими примитивами мы можем взаимодействовать с помощью функций. Для того, чтобы было легче понять, будем представлять себе эти примитивы в качестве строительных материалов, таких как песок, глина, вода и так далее.</p>
 			</div>
 			<div class="tutorial-step">
 				<div class="tutorial-step__img">
-					<img src="http://placehold.it/500" alt="step-img">
+					<img src="{% static 'tut-img-3.jpg'%}" alt="step-img">
 				</div>
-				<p class="tutorial-step__text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum beatae harum dicta, voluptatibus qui optio debitis corporis rerum, odit veritatis similique veniam natus fuga fugit dolorum cumque inventore laudantium eius?</p>
+				<p class="tutorial-step__text">Функции - это магические ящики, в которые мы можем положить наши материалы, а на выходе получить обработанные материалы, такие как кирпичи, доски, бетонные блоки. А сами по себе эти обработанные материалы, могут использоваться в таких же ящиках, для того, чтобы получить еще более интересный и сложный материал, и так далее. </p>
 			</div>
 			<div class="tutorial-step">
 				<div class="tutorial-step__img">
-					<img src="http://placehold.it/500" alt="step-img">
+					<img src="{% static 'tut-img-4.png'%}" alt="step-img">
 				</div>
-				<p class="tutorial-step__text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum beatae harum dicta, voluptatibus qui optio debitis corporis rerum, odit veritatis similique veniam natus fuga fugit dolorum cumque inventore laudantium eius?</p>
+				<p class="tutorial-step__text">К примеру, рассмотрим несколько из списка управляющих конструкций. Конструкция define, позволяет дать имя чему либо. К примеру мы можем сказать, используя конструкицю define, что слово "Кочегар" будет обозначать число 2. И в тот момент, когда мы захотим использовать где либо слово "Кочегар", все будут понимать, что на самом деле вы имели в виду не это слово, а число 2.</p>
+			</div>
+			<div class="tutorial-step">
+				<div class="tutorial-step__img">
+					<img src="{% static 'tut-img-5.jpg'%}" alt="step-img">
+				</div>
+				<p class="tutorial-step__text">Конструкция If дает человеку выбор в зависимости от входящего условия. Если условие верно (True), то выполнится одно действие, а если условие ложно (False) - другое действие.</p>
 			</div>
 		</div>
 	</div> 
