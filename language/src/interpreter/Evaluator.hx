@@ -10,6 +10,7 @@ enum ASTType {
     APicture(x: Int, y: Int);
     AList(list: List<ASTType>);
     ALambda;
+    AClosure(func: Dynamic);
     AQuote;
     AIf;
     ADef;
@@ -63,8 +64,15 @@ class Evaluator {
 
     public function eval(expr: ASTType, scope: Scope): Null<ASTType> {
         var out = switch (expr) {
-            case ANumber(_) | AString(_) | ASymbol(_) | ABoolean(_) | APicture(_,_):
+            case ANumber(_) | AString(_) /*| ASymbol(_)*/ | ABoolean(_) | APicture(_,_):
                 expr;
+                // Символ разворачивать в дефайн, если есть определение
+            case ASymbol(_):
+                var reduced = findInScopes(scope, expr);
+                if (reduced != null)
+                    reduced;
+                else
+                    expr;
             case AList(list):
                 var head = list.pop();
                 var tail = list;
@@ -88,14 +96,42 @@ class Evaluator {
 
                         if (args.match(AList(_)) && body.match(AList(_))) {
                             var localScope = makeScope(scope);
-                            null;
+
+                            var lst = switch (args) {
+                                case AList(list):
+                                    list;
+                                case _:
+                                    null;
+                            }
+
+                            AClosure(function(l: List<ASTType>): ASTType {
+                                for (v in lst) {
+                                    define(localScope, v, l.pop());
+                                }
+
+                                return eval(body, localScope);
+                            });
                         } else {
                             null;
                         }
                     case AIf:
-                        null;
+                        var cond = tail.pop();
+
+                        if (!cond.match(ABoolean(_))) {
+                            cond = eval(tail.first(), scope);
+                        }
+
+                        switch (cond) {
+                            case ABoolean(boolean):
+                                if (!boolean)
+                                    tail.pop();
+            
+                                eval(tail.first(), scope);                    
+                            case _:
+                                null;
+                        }
                     case AQuote:
-                        null;
+                        tail.first();
                     case AListSymbol:
                         null;
                     case ABegin:
