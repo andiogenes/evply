@@ -439,6 +439,15 @@ class Main extends Application {
 		// 	workspace.zoom(-Math.atan(e*0.01));
 	}
 
+	function createJson():String {
+		var str = "";
+		for (i in workspace.nodes) {
+			str += i.serialize() + ",";
+		}
+
+		return str;
+	}
+
 	static function main() {
 		new Main();
 	}
