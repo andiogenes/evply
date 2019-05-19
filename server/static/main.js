@@ -39,3 +39,19 @@ menu.addEventListener('click', (e) => {
 		list.classList.toggle('list_active');
 });
 
+ /* Popup */
+
+const openBtn = document.getElementById('js-open-tutorial');
+const closeBtn = document.getElementById('js-close-tutorial');
+
+
+closeBtn.onclick = popUpHide;
+openBtn.onclick = popUpShow;
+
+function popUpShow() {
+	document.getElementById('popup1').style.display = 'block'; 
+}
+
+function popUpHide() {
+	document.getElementById('popup1').style.display = 'none';
+}

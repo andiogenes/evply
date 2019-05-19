@@ -998,7 +998,7 @@ var editor_gui_PictureSelector = function(x,y,width,height,workspace,app) {
 	this.workspace = workspace;
 	var graphic = new PIXI.Graphics();
 	graphic.lineStyle(5);
-	graphic.beginFill(2236962,0.5);
+	graphic.beginFill(2236962,0.95);
 	graphic.drawRoundedRect(x,y,width,height,10);
 	graphic.endFill();
 	this.addChild(graphic);
