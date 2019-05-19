@@ -35,6 +35,7 @@ class Main extends Application {
 	var isDragging: Bool;
 	var loader: Loader;
 	var pictureSelector: Null<editor.gui.PictureSelector>;
+	var boolSelector: Null<editor.gui.BoolSelector>;
 	var evalSelector: editor.gui.EvalSelector;
 	var evaluator: Evaluator;
 
@@ -112,6 +113,12 @@ class Main extends Application {
 		Browser.document.querySelector("#picture_btn").addEventListener("click", function() {
 			if (workspace != null && pictureSelector != null) {
 				pictureSelector.visible = true;
+			}
+		});
+
+		Browser.document.querySelector("#bool_btn").addEventListener("click", function() {
+			if (workspace != null && boolSelector != null) {
+				boolSelector.visible = true;
 			}
 		});
 
@@ -266,6 +273,7 @@ class Main extends Application {
 		loader.add("lambda", "lambda.png");
 		loader.add("hand", "hand.png");
 		loader.add("eval", "eval.png");
+		loader.add("closure", "closure.png");
 		loader.add("magnifier", "magnifier.png");
 		loader.add("pictures", "pictures.json");
 		loader.load(init);
@@ -329,6 +337,10 @@ class Main extends Application {
     	pictureSelector = new editor.gui.PictureSelector(width * 0.25, height * 0.1, width/2, height * 0.8, workspace, this);
 		pictureSelector.visible = false;
 		stage.addChild(pictureSelector);
+
+		boolSelector = new editor.gui.BoolSelector(width * 0.25, height * 0.3, width/2, height * 0.3, workspace, this);
+		boolSelector.visible = false;
+		stage.addChild(boolSelector);
 
 		evalSelector = new editor.gui.EvalSelector(function() {
 			// trace(workspace.selectedNodes.first().serialize());

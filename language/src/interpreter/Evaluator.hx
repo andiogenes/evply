@@ -10,7 +10,7 @@ enum ASTType {
     APicture(x: Int, y: Int);
     AList(list: List<ASTType>);
     ALambda;
-    AClosure(func: Dynamic);
+    AClosure(func: List<ASTType> -> Dynamic);
     AQuote;
     AIf;
     ADef;
@@ -66,7 +66,6 @@ class Evaluator {
         var out = switch (expr) {
             case ANumber(_) | AString(_) /*| ASymbol(_)*/ | ABoolean(_) | APicture(_,_):
                 expr;
-                // Символ разворачивать в дефайн, если есть определение
             case ASymbol(_):
                 var reduced = findInScopes(scope, expr);
                 if (reduced != null)
@@ -133,7 +132,15 @@ class Evaluator {
                     case AQuote:
                         tail.first();
                     case AListSymbol:
-                        null;
+                        AList(tail);
+                    case AClosure(func):
+                        // var proc = eval(head, scope);
+                        trace('a');
+                        var args = new List<ASTType>();
+                        for (i in tail) {
+                            args.add(eval(i, scope));
+                        }
+                        func(args);
                     case ABegin:
                         null;
                     case _:
