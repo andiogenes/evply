@@ -10,7 +10,7 @@ Demo is available at https://andiogenes.github.io/evply/
 
 Slides
 ------
-Here is slides from the final presentation at Hackathon Barnaul 2019: [PDF](https://raw.githubusercontent.com/andiogenes/evply/media/slides.pdf)
+Here is slides from the final presentation at Hackathon Barnaul 2019: [PDF (rus)](https://raw.githubusercontent.com/andiogenes/evply/media/slides.pdf)
 
 Screenshot
 ----------
