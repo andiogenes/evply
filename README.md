@@ -8,6 +8,10 @@ Try it
 ------
 Demo is available at https://andiogenes.github.io/evply/
 
+Slides
+------
+Here is slides from the final presentation at Hackathon Barnaul 2019: [PDF](https://raw.githubusercontent.com/andiogenes/evply/media/slides.pdf)
+
 Screenshot
 ----------
 ![Tutorial](https://raw.githubusercontent.com/andiogenes/evply/media/2021-07-11_12-14_1.png "Tutorial")
